@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <GridView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/gameBoard"/>
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/controlPanel"
+            android:baselineAligned="false">
+
+        <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnGoLeft"
+                android:background="@drawable/arrow_left_2"
+                android:adjustViewBounds="false"
+                android:baselineAlignBottom="false"
+                android:clickable="true"
+                android:focusable="false"
+                />
+
+        <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnGoDown"
+                android:background="@drawable/arrow_down_double_2"
+                android:clickable="true"/>
+
+        <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnGoRight"
+                android:background="@drawable/arrow_right_2"
+                android:adjustViewBounds="false"
+                android:clickable="true"/>
+
+        <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnTurnLeft"
+                android:background="@drawable/object_rotate_left_3"
+                android:clickable="true"/>
+
+        <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnTurnRight"
+                android:background="@drawable/object_rotate_right_3"
+                android:clickable="true"/>
+
+    </LinearLayout>
+</LinearLayout>
