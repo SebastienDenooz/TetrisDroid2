@@ -4,12 +4,16 @@
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        xmlns:android="http://schemas.android.com/apk/res/android">
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:weightSum="1">
 
-    <GridView
+    <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/gameBoard"/>
+            android:layout_weight="0.90"
+            android:id="@+id/gameBoard">
+    </LinearLayout>
 
     <LinearLayout
             android:orientation="horizontal"
@@ -17,7 +21,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/controlPanel"
             android:baselineAligned="false"
-            android:weightSum="1.0">
+            android:weightSum="1.0"
+            android:layout_weight="0.10">
 
         <ImageButton
                 android:layout_width="wrap_content"
@@ -64,4 +69,5 @@
                 android:layout_weight="0.2"/>
 
     </LinearLayout>
+
 </LinearLayout>
