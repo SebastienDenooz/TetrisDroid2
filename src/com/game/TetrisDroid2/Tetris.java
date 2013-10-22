@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 public class Tetris extends Activity {
@@ -42,7 +41,7 @@ public class Tetris extends Activity {
             if (coordXY.getChildCount() < 1){
                 System.out.println("Create square");
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.FILL_PARENT, 1);
-                ImageView btn = new ImageView(this);
+                Square btn = new Square(this);
                 btn.setLayoutParams(params);
                 btn.setBackgroundColor(Color.WHITE);
                 coordXY.addView(btn);
@@ -56,7 +55,25 @@ public class Tetris extends Activity {
 
     }
 
+    private void fillEmptyLastLines(){
 
+    }
+
+    private void throwNewElement(){
+
+    }
+
+    private void downElement(){
+
+    }
+
+    private void turnElementLeft(){
+
+    }
+
+    private void turnElementRight(){
+
+    }
 
     private Runnable heartBeat = new Runnable() {
 
@@ -69,7 +86,7 @@ public class Tetris extends Activity {
                 LinearLayout nextGridCase = (LinearLayout) column.getChildAt(y+1);
                 if (nextGridCase.getChildCount() == 0 & gridCase.getChildCount() == 1){
 
-                    ImageView square = (ImageView) gridCase.getChildAt(0);
+                    Square square = (Square) gridCase.getChildAt(0);
                     gridCase.removeViewAt(0);
                     nextGridCase.addView(square);
                     if (y > 18) y--;
