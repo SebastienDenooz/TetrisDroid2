@@ -50,21 +50,36 @@ public class Tetris extends Activity {
     }
 
 
-
     private void removeFullLines(){
 
     }
 
     private void fillEmptyLastLines(){
+        for (int x = 0; x < gameBoard.getChildCount();x++){
+            LinearLayout column = (LinearLayout) gameBoard.getChildAt(x);
+            for (int y = column.getChildCount()-2;y>=0;y--){
+                LinearLayout gridCase = (LinearLayout) column.getChildAt(y);
+                LinearLayout nextGridCase = (LinearLayout) column.getChildAt(y+1);
+                Square square = (Square) gridCase.getChildAt(0);
+                if (nextGridCase.getChildCount() == 0 & gridCase.getChildCount() == 1){
+                    gridCase.removeViewAt(0);
+                    nextGridCase.addView(square);
+                    if (y > 18) y--;
 
+                }
+            }
+        }
     }
 
     private void throwNewElement(){
 
     }
 
-    private void downElement(){
-
+    private boolean downElement(){
+        if (false){
+            throwNewElement();
+        }
+        return true;
     }
 
     private void turnElementLeft(){
@@ -75,25 +90,24 @@ public class Tetris extends Activity {
 
     }
 
-    private Runnable heartBeat = new Runnable() {
-
-        @Override
-        public void run() {
+    private void redrawGameBoard(){
         for (int x = 0; x < gameBoard.getChildCount();x++){
             LinearLayout column = (LinearLayout) gameBoard.getChildAt(x);
             for (int y = column.getChildCount()-2;y>=0;y--){
                 LinearLayout gridCase = (LinearLayout) column.getChildAt(y);
-                LinearLayout nextGridCase = (LinearLayout) column.getChildAt(y+1);
-                if (nextGridCase.getChildCount() == 0 & gridCase.getChildCount() == 1){
-
-                    Square square = (Square) gridCase.getChildAt(0);
                     gridCase.removeViewAt(0);
-                    nextGridCase.addView(square);
-                    if (y > 18) y--;
-
-                }
             }
         }
+    }
+
+    private Runnable heartBeat = new Runnable() {
+
+        @Override
+        public void run() {
+        removeFullLines();
+        fillEmptyLastLines();
+        downElement();
+        //redrawGameBoard();
         handler.postDelayed(this, 1000);
         }
     };

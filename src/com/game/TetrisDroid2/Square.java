@@ -6,8 +6,12 @@ import android.widget.ImageView;
 
 public class Square extends ImageView{
 
+    public static boolean FALLING = true;
+
     private boolean _isFalling = true;
     private int _squareColor = 0;
+    private int _posX = 0;
+    private int _posY = 0;
 
     public Square(Context context){
         super(context);
@@ -37,6 +41,22 @@ public class Square extends ImageView{
 
     public int getSquareColor(){
         return _squareColor;
+    }
+
+    public int getPosX(){
+        return _posX;
+    }
+
+    public void setPosX(int posX){
+        _posX = posX;
+    }
+
+    public int getPosY(){
+        return _posY;
+    }
+
+    public void setPosY(int posY){
+        _posY =  posY;
     }
 
 }
