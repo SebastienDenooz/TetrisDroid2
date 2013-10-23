@@ -6,12 +6,19 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.widget.LinearLayout;
 
-public class Tetris extends Activity {
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+public class Tetris extends Activity implements Elements {
     /**
      * Called when the activity is first created.
      */
     private Handler handler = new Handler();
+    Random generator = new Random();
     LinearLayout gameBoard;
+    List<Square> fallingSquareList = new ArrayList<Square>();
+    List<Square> bottomSquareList = new ArrayList<Square>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -22,7 +29,7 @@ public class Tetris extends Activity {
         Game theGame = new Game();
         theGame.main(gameBoard, this);
         champi();
-        handler.postDelayed(heartBeat, 1000);
+        handler.postDelayed(heartBeat, 10);
     }
 
     public void onStop(){
@@ -72,6 +79,31 @@ public class Tetris extends Activity {
     }
 
     private void throwNewElement(){
+        if (fallingSquareList.isEmpty()){
+            tElement element = new tElement();
+            int orientation = generator.nextInt(4);
+            int[][] matrix = element.matrix[orientation];
+            System.out.println("New square ?");
+            for (int i = 0;i<matrix.length;i++){
+                for (int j = 0;j<matrix[i].length;j++){
+                    System.out.println(matrix[i][j]);
+                    if (matrix[i][j] == 1){
+
+                        int startPosition = Math.round(gameBoard.getChildCount()/2);
+                        Square newSquare = new Square(this, element.color);
+                        LinearLayout PosX = (LinearLayout) gameBoard.getChildAt(startPosition);
+                        LinearLayout PosXY = (LinearLayout) PosX.getChildAt(0+j);
+                        if ( PosXY.getChildCount() <1 ){
+                            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.FILL_PARENT, 1);
+                            newSquare.setLayoutParams(params);
+                            newSquare.setOrientation(orientation);
+                            PosXY.addView(newSquare);
+                            fallingSquareList.add(newSquare);
+                        }
+                    }
+                }
+            }
+        }
 
     }
 
@@ -82,11 +114,11 @@ public class Tetris extends Activity {
         return true;
     }
 
-    private void turnElementLeft(){
+    private void rotateElementLeft(){
 
     }
 
-    private void turnElementRight(){
+    private void rotateElementRight(){
 
     }
 
@@ -107,8 +139,9 @@ public class Tetris extends Activity {
         removeFullLines();
         fillEmptyLastLines();
         downElement();
+        throwNewElement();
         //redrawGameBoard();
-        handler.postDelayed(this, 1000);
+        handler.postDelayed(this, 10);
         }
     };
 

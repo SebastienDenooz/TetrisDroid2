@@ -9,18 +9,18 @@ public class Square extends ImageView{
     public static boolean FALLING = true;
 
     private boolean _isFalling = true;
-    private int _squareColor = 0;
     private int _posX = 0;
     private int _posY = 0;
+    private int _orientation = 0;
 
     public Square(Context context){
         super(context);
-        _squareColor = Color.WHITE;
+        this.setBackgroundColor(Color.WHITE);
     }
 
     public Square(Context context, int color){
         super(context);
-        _squareColor = color;
+        this.setBackgroundColor(color);
     }
 
     public void setStateFalling(){
@@ -33,14 +33,6 @@ public class Square extends ImageView{
 
     public boolean getState(){
         return _isFalling;
-    }
-
-    public void setSquareColor(int color){
-        _squareColor = color;
-    }
-
-    public int getSquareColor(){
-        return _squareColor;
     }
 
     public int getPosX(){
@@ -57,6 +49,14 @@ public class Square extends ImageView{
 
     public void setPosY(int posY){
         _posY =  posY;
+    }
+
+    public void setOrientation(int orientation){
+        _orientation = orientation;
+    }
+
+    public int getOrientation(){
+        return _orientation;
     }
 
 }
