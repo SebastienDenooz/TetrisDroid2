@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class Tetris extends Activity implements Elements {
+public class Tetris extends Activity {
     /**
      * Called when the activity is first created.
      */
@@ -28,32 +28,12 @@ public class Tetris extends Activity implements Elements {
         this.gameBoard = (LinearLayout) this.findViewById(R.id.gameBoard);
         Game theGame = new Game();
         theGame.main(gameBoard, this);
-        champi();
-        handler.postDelayed(heartBeat, 10);
+        handler.postDelayed(heartBeat, 1000);
     }
 
     public void onStop(){
         super.onStop();
         handler.removeCallbacks(heartBeat);
-    }
-
-    public void champi(){
-        for (int k=0; k<15; k++){
-            java.util.Random rand = new java.util.Random();
-            int leNombreAleatoire = rand.nextInt(gameBoard.getChildCount());
-            LinearLayout coordX = (LinearLayout) gameBoard.getChildAt(leNombreAleatoire);
-            int leNombreAleatoirey = rand.nextInt(coordX.getChildCount());
-            LinearLayout coordXY = (LinearLayout) coordX.getChildAt(leNombreAleatoirey);
-
-            if (coordXY.getChildCount() < 1){
-                System.out.println("Create square");
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.FILL_PARENT, 1);
-                Square btn = new Square(this);
-                btn.setLayoutParams(params);
-                btn.setBackgroundColor(Color.WHITE);
-                coordXY.addView(btn);
-            }
-        }
     }
 
 
@@ -80,19 +60,37 @@ public class Tetris extends Activity implements Elements {
 
     private void throwNewElement(){
         if (fallingSquareList.isEmpty()){
-            tElement element = new tElement();
+            int elementType = generator.nextInt(5);
+            Elements element = new Elements();
+            switch (elementType){
+                case 0: element.initializeT();
+                    break;
+                case 1: element.initializeI();
+                    break;
+                case 2: element.initializeL();
+                    break;
+                case 3: element.initializeO();
+                    break;
+                case 4: element.initializeS();
+                    break;
+                default: element.initializeS();
+                    break;
+            }
             int orientation = generator.nextInt(4);
             int[][] matrix = element.matrix[orientation];
-            System.out.println("New square ?");
-            for (int i = 0;i<matrix.length;i++){
-                for (int j = 0;j<matrix[i].length;j++){
-                    System.out.println(matrix[i][j]);
-                    if (matrix[i][j] == 1){
+            int startPosition = Math.round(gameBoard.getChildCount()/2)-matrix.length;
 
-                        int startPosition = Math.round(gameBoard.getChildCount()/2);
+            for (int x = 0;x<matrix.length;x++){
+                for (int j = 0;j<matrix[x].length;j++){
+
+                    if (matrix[x][j] == 1){
+
+
                         Square newSquare = new Square(this, element.color);
-                        LinearLayout PosX = (LinearLayout) gameBoard.getChildAt(startPosition);
-                        LinearLayout PosXY = (LinearLayout) PosX.getChildAt(0+j);
+
+                        LinearLayout PosX = (LinearLayout) gameBoard.getChildAt(startPosition+x);
+                        LinearLayout PosXY = (LinearLayout) PosX.getChildAt(j);
+
                         if ( PosXY.getChildCount() <1 ){
                             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.FILL_PARENT, 1);
                             newSquare.setLayoutParams(params);
@@ -100,6 +98,7 @@ public class Tetris extends Activity implements Elements {
                             PosXY.addView(newSquare);
                             fallingSquareList.add(newSquare);
                         }
+
                     }
                 }
             }
@@ -141,7 +140,7 @@ public class Tetris extends Activity implements Elements {
         downElement();
         throwNewElement();
         //redrawGameBoard();
-        handler.postDelayed(this, 10);
+        handler.postDelayed(this, 1000);
         }
     };
 

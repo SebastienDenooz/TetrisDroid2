@@ -2,73 +2,71 @@ package com.game.TetrisDroid2;
 
 import android.graphics.Color;
 
-public interface Elements {
+public class Elements {
 
     public static final int NORTH = 0;
     public static final int SOUTH = 1;
     public static final int EAST = 2;
     public static final int WEST = 3;
 
-    public static final class tElement {
+    public static int[][][] matrix;
+    public static int color;
 
-        public int[][][] matrix ={
+    public void initializeT(){
+        int[][][]_matrix =  {
                 {{1,1,1},{0,1,0}}, // NORTH
                 {{0,1,0},{1,1,1}}, // SOUTH
                 {{0,1},{1,1},{0,1}}, // EAST
                 {{1,0},{1,1},{1,0}} // WEST
         };
-        public int color = Color.WHITE;
+        matrix = _matrix;
+        color = Color.WHITE;
 
     }
 
-    public static final class iElement {
-
-        public int[][][] matrix ={
+    public void initializeI(){
+        int[][][] _matrix ={
                 {{1},{1},{1},{1}}, // NORTH
                 {{1},{1},{1},{1}}, // SOUTH
                 {{1,1,1,1}}, // EAST
                 {{1,1,1,1}} // WEST
         };
-        public int color = Color.RED;
-
+        matrix = _matrix;
+        color = Color.RED;
     }
 
-    public static final class sElement {
-
-        public int[][][] matrix ={
+    public void initializeS(){
+        int[][][] _matrix ={
                 {{0,1,1},{1,1,0}},
                 {{0,1},{1,1},{1,0}},
                 {{1,1,0},{0,1,1}},
                 {{1,0},{1,1},{0,1}}
         };
-        public int color = Color.YELLOW;
-
+        matrix = _matrix;
+        color = Color.YELLOW;
     }
 
+    public void initializeO(){
 
-    public static final class oElement {
-
-        public int[][][] matrix ={
+        int[][][] _matrix ={
                 {{1,1},{1,1}},
                 {{1,1},{1,1}},
                 {{1,1},{1,1}},
                 {{1,1},{1,1}},
         };
-        public int color = Color.CYAN;
-
+        matrix = _matrix;
+        color = Color.CYAN;
     }
 
+    public void initializeL(){
 
-    public static final class lElement {
-
-        public int[][][] matrix ={
+        int[][][] _matrix ={
                 {{0,1},{0,1},{1,1}},
                 {{1,1},{1,0},{1,0}},
                 {{0,0,1},{1,1,1}},
                 {{1,1,1},{0,0,1}}
         };
-        public int color = Color.GREEN;
-
+        matrix = _matrix;
+        color = Color.GREEN;
     }
-
 }
