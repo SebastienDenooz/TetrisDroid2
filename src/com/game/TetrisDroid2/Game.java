@@ -1,16 +1,26 @@
 package com.game.TetrisDroid2;
 
 import android.content.Context;
+import android.os.Handler;
 import android.widget.LinearLayout;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class Game {
 
     private static LinearLayout gameBoard;
     private static Context context;
     private static int [] gameBoardDimension = {15,20};
+    private Random generator = new Random();
+
+    public Element fallingElement;
+    List<Square> bottomSquareList = new ArrayList<Square>();
+    public Handler handler = new Handler();
 
 
-    public static void main( LinearLayout _gameBoard, Context _context) {
+    public Game( LinearLayout _gameBoard, Context _context) {
         gameBoard = _gameBoard;
         context = _context;
 
@@ -21,6 +31,7 @@ public class Game {
             verticalLine.setWeightSum(gameBoardDimension[1]);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.FILL_PARENT, 1);
             verticalLine.setLayoutParams(params);
+            verticalLine.setId(i);
 
             gameBoard.addView(verticalLine);
 
@@ -31,10 +42,46 @@ public class Game {
                 gridCase.setLayoutParams(caseParams);
                 gridCase.setWeightSum(1);
                 gridCase.setOrientation(LinearLayout.VERTICAL);
+                gridCase.setId(j);
                 verticalLine.addView(gridCase);
             }
 
         }
+        fallingElement = new Element(3,3,_gameBoard, context);
     }
 
+
+    private void fillEmptyLastLines(){
+        for (int x = 0; x < gameBoard.getChildCount();x++){
+            LinearLayout column = (LinearLayout) gameBoard.getChildAt(x);
+            for (int y = column.getChildCount()-2;y>=0;y--){
+                LinearLayout gridCase = (LinearLayout) column.getChildAt(y);
+                LinearLayout nextGridCase = (LinearLayout) column.getChildAt(y+1);
+                Square square = (Square) gridCase.getChildAt(0);
+                if (nextGridCase.getChildCount() == 0 & gridCase.getChildCount() == 1){
+                    gridCase.removeViewAt(0);
+                    nextGridCase.addView(square);
+                    if (y > 18) y--;
+
+                }
+            }
+        }
+    }
+
+    public Runnable heartBeat = new Runnable() {
+
+        @Override
+        public void run() {
+//            removeFullLines();
+//            fillEmptyLastLines();
+
+            if (fallingElement != null){
+               fallingElement.downElement();
+            }else{
+
+            }
+
+            //handler.postDelayed(this, 1000);
+        }
+    };
 }
