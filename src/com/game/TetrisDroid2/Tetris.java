@@ -61,7 +61,24 @@ public class Tetris extends Activity {
     }
 
     private void fillEmptyLines(List<Integer> lines){
+        int i = 0;
+        for (int line : lines ){
+            int startAt = line-i;
+            for (int y = startAt ; y >= 1; y--){
+                for (int x = 0; x <= theGame.gameBoardDimension[0]-1; x++){
+                    LinearLayout column = (LinearLayout) gameBoard.getChildAt(x);
+                    LinearLayout gridCase = (LinearLayout) column.getChildAt(y-1);
+                    LinearLayout newGridCase = (LinearLayout) column.getChildAt(y);
+                    Square squareToMove = (Square) gridCase.getChildAt(0);
+                    if (squareToMove != null){
+                        gridCase.removeView(squareToMove);
+                        newGridCase.addView(squareToMove);
+                    }
+                }
 
+            }
+            i++;
+        }
     }
 
     public void addListenerOnButton() {
