@@ -2,12 +2,13 @@ package com.game.TetrisDroid2;
 
 import android.graphics.Color;
 
-public class Elements {
 
-    public static final int NORTH = 0;
-    public static final int SOUTH = 1;
-    public static final int EAST = 2;
-    public static final int WEST = 3;
+/**
+ * Class containing the different form and their color and orientations
+ *
+ * TODO: Get a descent data structure and put this bullshit in hell!!! >:{
+ */
+public class Elements {
 
     public static int[][][] matrix;
     public static int color;
