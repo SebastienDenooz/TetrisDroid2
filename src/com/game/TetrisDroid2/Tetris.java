@@ -154,6 +154,8 @@ public class Tetris extends Activity {
     public void addListenerOnButton() {
         ImageButton butn = (ImageButton) findViewById(R.id.btnTurnRight);
         ImageButton butnLeft = (ImageButton) findViewById(R.id.btnTurnLeft);
+        ImageButton straffLeft = (ImageButton) findViewById(R.id.btnGoLeft);
+        ImageButton straffRight = (ImageButton) findViewById(R.id.btnGoRight);
         butn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -174,6 +176,25 @@ public class Tetris extends Activity {
                 theElement.rotateLeft();
             }
         });
+
+
+        straffLeft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Element theElement = theGame.fallingElement;
+                theElement.strafElementLeft();
+            }
+        });
+
+
+        straffRight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Element theElement = theGame.fallingElement;
+                theElement.strafElementRight();
+            }
+        });
+
 
     }
 }

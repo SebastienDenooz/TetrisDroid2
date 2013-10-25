@@ -51,13 +51,11 @@ public class Element{
         for (int x = 0;x<matrix.length;x++){
             for (int y = 0;y<matrix[x].length;y++){
                 if (matrix[x][y] == 1){
-                    System.out.println(".");
                     LinearLayout column = (LinearLayout) _gameBoard.getChildAt(positionX+x);
+                    System.out.println(column);
+                    if (column == null){ return false; }
                     LinearLayout gridCase = (LinearLayout) column.getChildAt(_positionY+y);
                     Square tmpSquare = (Square) gridCase.getChildAt(0);
-
-                    System.out.println(gridCase.getChildCount());
-                    System.out.println(_squaresList.contains(tmpSquare));
                     if ( gridCase.getChildCount() > 0 & !_squaresList.contains(tmpSquare)){
                         return false;
                     }
@@ -136,29 +134,38 @@ public class Element{
             }
             _positionY++;
         }
-        System.out.println(_positionY);
         return canFall;
     }
 
 
     public boolean rotateLeft(){
-        _orientation = _orientation+1;
+        _orientation++;
         if (_orientation > 3 ) _orientation = 0;
         return drawSquare();
     }
 
 
     public boolean rotateRight(){
-        return true;
+        _orientation--;
+        if (_orientation < 0 ) _orientation = 4;
+        return drawSquare();
     }
 
 
-    private void strafElementLeft(){
+    public boolean strafElementLeft(){
+        _positionX--;
+        boolean straffResult = drawSquare();
+        if (!straffResult) _positionX++;
+        return straffResult;
 
     }
 
 
-    private void strafElementRight(){
+    public boolean strafElementRight(){
+        _positionX++;
+        boolean straffResult = drawSquare();
+        if (!straffResult) _positionX--;
+        return straffResult;
 
     }
 }
