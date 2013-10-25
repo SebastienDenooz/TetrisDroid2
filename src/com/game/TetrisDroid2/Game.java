@@ -18,7 +18,6 @@ public class Game {
 
     static Element fallingElement;
     List<Square> bottomSquareList = new ArrayList<Square>();
-    public Handler handler = new Handler();
 
 
     public Game( LinearLayout _gameBoard, int[] _gameBoardDimension, Context _context) {
@@ -80,20 +79,4 @@ public class Game {
         }
     }
 
-    public Runnable heartBeat = new Runnable() {
-
-        @Override
-        public void run() {
-//            removeFullLines();
-//            fillEmptyLastLines();
-
-            if (fallingElement != null){
-               fallingElement.downElement();
-            }else{
-
-            }
-
-            //handler.postDelayed(this, 1000);
-        }
-    };
 }

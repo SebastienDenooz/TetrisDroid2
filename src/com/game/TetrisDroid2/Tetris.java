@@ -2,6 +2,7 @@ package com.game.TetrisDroid2;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -16,6 +17,7 @@ public class Tetris extends Activity {
     LinearLayout gameBoard;
     public static Game theGame;
     public static int [] gameBoardDimension = {15,20};
+    public Handler handler = new Handler();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -25,12 +27,12 @@ public class Tetris extends Activity {
 
         this.gameBoard = (LinearLayout) this.findViewById(R.id.gameBoard);
         theGame = new Game(gameBoard, gameBoardDimension, this);
-        ///theGame.handler.postDelayed(theGame.heartBeat, 1000);
+        heartBeat.run();
     }
 
     public void onStop(){
         super.onStop();
-        theGame.handler.removeCallbacks(theGame.heartBeat);
+        handler.removeCallbacks(heartBeat);
     }
 
 
@@ -92,11 +94,7 @@ public class Tetris extends Activity {
             @Override
             public void onClick(View view) {
                 Element theElement = theGame.fallingElement;
-                boolean isDown = theElement.downElement();
-                if (!isDown){
-                    removeFullLines();
-                    theGame.throwNewElement();
-                }
+                theElement.rotateLeft();
             }
         });
 
@@ -140,4 +138,21 @@ public class Tetris extends Activity {
 
 
     }
+
+
+    public Runnable heartBeat = new Runnable() {
+
+        @Override
+        public void run() {
+
+            Element theElement = theGame.fallingElement;
+            boolean isDown = theElement.downElement();
+            if (!isDown){
+                removeFullLines();
+                theGame.throwNewElement();
+            }
+            handler.postDelayed(this, 1000);
+        }
+    };
+
 }
