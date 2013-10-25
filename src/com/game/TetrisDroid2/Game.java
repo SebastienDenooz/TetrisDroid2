@@ -15,7 +15,7 @@ public class Game {
     private static int [] gameBoardDimension = {15,20};
     private Random generator = new Random();
 
-    public Element fallingElement;
+    static Element fallingElement;
     List<Square> bottomSquareList = new ArrayList<Square>();
     public Handler handler = new Handler();
 
@@ -47,7 +47,17 @@ public class Game {
             }
 
         }
-        fallingElement = new Element(3,3,_gameBoard, context);
+        fallingElement = new Element(generator.nextInt(5),generator.nextInt(4),_gameBoard, context);
+    }
+
+
+    public void throwNewElement(){
+        if (fallingElement != null){
+            for (Square square : fallingElement._squaresList ){
+                bottomSquareList.add(square);
+            }
+        }
+        fallingElement = new Element(generator.nextInt(5),generator.nextInt(4),gameBoard, context);
     }
 
 

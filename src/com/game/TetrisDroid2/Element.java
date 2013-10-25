@@ -4,12 +4,13 @@ package com.game.TetrisDroid2;
 import android.content.Context;
 import android.widget.LinearLayout;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Element{
 
 
-    private List<Square> _squaresList;
+    public List<Square> _squaresList = new ArrayList<Square>();
     private int _orientation;
     private int _formType;
     private LinearLayout _gameBoard;
@@ -54,18 +55,59 @@ public class Element{
                         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.FILL_PARENT, 1);
                         newSquare.setLayoutParams(params);
                         PosXY.addView(newSquare);
-                        this._squaresList.add(newSquare);
+                        _squaresList.add(newSquare);
                     }
 
                 }
             }
         }
-        int size = _squaresList.size();
     }
 
 
     public boolean downElement(){
-        return true;
+        boolean canFall = true;
+        for (Square square : _squaresList ){
+
+            LinearLayout gridCase = (LinearLayout) square.getParent();
+            LinearLayout column = (LinearLayout) gridCase.getParent();
+
+            int y = column.indexOfChild(gridCase);
+
+            if (y<19){
+                LinearLayout nextGridCase = (LinearLayout) column.getChildAt(y+1);
+                if (nextGridCase.getChildCount() > 0){
+                    Square presentSquare = (Square) nextGridCase.getChildAt(0);
+                    if (!(_squaresList.contains(presentSquare))){
+                        System.out.println("Can NOT fall...");
+                        canFall = false;
+                    }else{
+                        System.out.println("Ok, can fall...");
+                    }
+                }
+            }else{
+                canFall = false;
+
+            }
+
+        }
+        if (canFall){
+            for (Square square : _squaresList ){
+
+                LinearLayout gridCase = (LinearLayout) square.getParent();
+                LinearLayout column = (LinearLayout) gridCase.getParent();
+
+                int y = column.indexOfChild(gridCase);
+
+                if (y<19){
+                    LinearLayout nextGridCase = (LinearLayout) column.getChildAt(y+1);
+                    gridCase.removeView(square);
+                    nextGridCase.addView(square);
+                }
+
+            }
+        }
+
+        return canFall;
     }
 
 

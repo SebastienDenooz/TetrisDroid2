@@ -14,7 +14,7 @@ public class Tetris extends Activity {
      */
     private static final String TAG = "TetrisDroid";
     LinearLayout gameBoard;
-    Game theGame;
+    public static Game theGame;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -23,8 +23,8 @@ public class Tetris extends Activity {
         addListenerOnButton();
 
         this.gameBoard = (LinearLayout) this.findViewById(R.id.gameBoard);
-        Game theGame = new Game(gameBoard, this);
-        theGame.handler.postDelayed(theGame.heartBeat, 1000);
+        theGame = new Game(gameBoard, this);
+        ///theGame.handler.postDelayed(theGame.heartBeat, 1000);
     }
 
     public void onStop(){
@@ -156,17 +156,13 @@ public class Tetris extends Activity {
         butn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//
-//                removeFullLines();
-//                //fillEmptyLastLines();
-//
-//                if (elementCanFall()){
-//                    downElement();
-//                }
-//
-//                if (fallingSquareList.isEmpty()) {
-//                    throwNewElement();
-//                }
+                Element theElement = theGame.fallingElement;
+                boolean isDown = theElement.downElement();
+                System.out.println(isDown);
+                if (!isDown){
+                    System.out.println(theGame);
+                    theGame.throwNewElement();
+                }
             }
         });
 
