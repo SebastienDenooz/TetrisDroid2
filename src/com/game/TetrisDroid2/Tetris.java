@@ -12,7 +12,7 @@ public class Tetris extends Activity {
     /**
      * Called when the activity is first created.
      */
-    private static final String TAG = "TetrisDroid";
+
     LinearLayout gameBoard;
     public static Game theGame;
 
@@ -153,6 +153,7 @@ public class Tetris extends Activity {
 
     public void addListenerOnButton() {
         ImageButton butn = (ImageButton) findViewById(R.id.btnTurnRight);
+        ImageButton butnLeft = (ImageButton) findViewById(R.id.btnTurnLeft);
         butn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -163,6 +164,14 @@ public class Tetris extends Activity {
                     System.out.println(theGame);
                     theGame.throwNewElement();
                 }
+            }
+        });
+
+        butnLeft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Element theElement = theGame.fallingElement;
+                theElement.rotateLeft();
             }
         });
 

@@ -2,6 +2,7 @@ package com.game.TetrisDroid2;
 
 
 import android.content.Context;
+import android.view.ViewManager;
 import android.widget.LinearLayout;
 
 import java.util.ArrayList;
@@ -15,6 +16,8 @@ public class Element{
     private int _formType;
     private LinearLayout _gameBoard;
     private Context _context;
+    private int _positionX;
+    private int _positionY = 0;
 
 
     public Element(int formType, int orientation, LinearLayout gameBoard, Context context){
@@ -22,9 +25,14 @@ public class Element{
         _formType = formType;
         _gameBoard = gameBoard;
         _context = context;
+        _positionX = Math.round(_gameBoard.getChildCount()/2);
+        drawSquare();
+    }
 
+
+    private boolean drawSquare(){
         Elements form = new Elements();
-        switch (formType){
+        switch (_formType){
             case 0: form.initializeT();
                 break;
             case 1: form.initializeI();
@@ -38,29 +46,53 @@ public class Element{
             default: form.initializeS();
                 break;
         }
-        int[][] matrix = form.matrix[orientation];
-        int startPosition = Math.round(gameBoard.getChildCount()/2)-matrix.length;
-
+        int[][] matrix = form.matrix[_orientation];
+        int positionX = _positionX-matrix.length;
         for (int x = 0;x<matrix.length;x++){
-            for (int j = 0;j<matrix[x].length;j++){
+            for (int y = 0;y<matrix[x].length;y++){
+                if (matrix[x][y] == 1){
+                    System.out.println(".");
+                    LinearLayout column = (LinearLayout) _gameBoard.getChildAt(positionX+x);
+                    LinearLayout gridCase = (LinearLayout) column.getChildAt(_positionY+y);
+                    Square tmpSquare = (Square) gridCase.getChildAt(0);
 
-                if (matrix[x][j] == 1){
-
-                    LinearLayout PosX = (LinearLayout) gameBoard.getChildAt(startPosition+x);
-                    LinearLayout PosXY = (LinearLayout) PosX.getChildAt(j);
-
-                    if ( PosXY.getChildCount() < 1 ){
-
-                        Square newSquare = new Square(_context, form.color);
-                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.FILL_PARENT, 1);
-                        newSquare.setLayoutParams(params);
-                        PosXY.addView(newSquare);
-                        _squaresList.add(newSquare);
+                    System.out.println(gridCase.getChildCount());
+                    System.out.println(_squaresList.contains(tmpSquare));
+                    if ( gridCase.getChildCount() > 0 & !_squaresList.contains(tmpSquare)){
+                        return false;
                     }
 
                 }
             }
         }
+
+
+        for (Square square : _squaresList ){
+            _gameBoard.removeView(square);
+            ((ViewManager) square.getParent()).removeView(square);
+            square = null;
+        }
+        _squaresList.clear();
+
+        for (int x = 0;x<matrix.length;x++){
+            for (int y = 0;y<matrix[x].length;y++){
+
+                if (matrix[x][y] == 1){
+
+                    LinearLayout column = (LinearLayout) _gameBoard.getChildAt(positionX+x);
+                    LinearLayout gridCase = (LinearLayout) column.getChildAt(_positionY+y);
+
+                    Square newSquare = new Square(_context, form.color);
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.FILL_PARENT, 1);
+                    newSquare.setLayoutParams(params);
+                    gridCase.addView(newSquare);
+                    _squaresList.add(newSquare);
+
+                }
+            }
+        }
+        return true;
+
     }
 
 
@@ -78,10 +110,7 @@ public class Element{
                 if (nextGridCase.getChildCount() > 0){
                     Square presentSquare = (Square) nextGridCase.getChildAt(0);
                     if (!(_squaresList.contains(presentSquare))){
-                        System.out.println("Can NOT fall...");
                         canFall = false;
-                    }else{
-                        System.out.println("Ok, can fall...");
                     }
                 }
             }else{
@@ -105,14 +134,17 @@ public class Element{
                 }
 
             }
+            _positionY++;
         }
-
+        System.out.println(_positionY);
         return canFall;
     }
 
 
     public boolean rotateLeft(){
-        return true;
+        _orientation = _orientation+1;
+        if (_orientation > 3 ) _orientation = 0;
+        return drawSquare();
     }
 
 
