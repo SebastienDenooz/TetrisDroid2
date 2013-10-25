@@ -12,17 +12,19 @@ public class Game {
 
     private static LinearLayout gameBoard;
     private static Context context;
-    private static int [] gameBoardDimension = {15,20};
     private Random generator = new Random();
+
+    public int [] gameBoardDimension;
 
     static Element fallingElement;
     List<Square> bottomSquareList = new ArrayList<Square>();
     public Handler handler = new Handler();
 
 
-    public Game( LinearLayout _gameBoard, Context _context) {
+    public Game( LinearLayout _gameBoard, int[] _gameBoardDimension, Context _context) {
         gameBoard = _gameBoard;
         context = _context;
+        gameBoardDimension = _gameBoardDimension;
 
         for (int i = 0; i < gameBoardDimension[0]; i++){
 

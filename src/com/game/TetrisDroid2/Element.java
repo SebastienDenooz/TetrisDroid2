@@ -52,7 +52,6 @@ public class Element{
             for (int y = 0;y<matrix[x].length;y++){
                 if (matrix[x][y] == 1){
                     LinearLayout column = (LinearLayout) _gameBoard.getChildAt(positionX+x);
-                    System.out.println(column);
                     if (column == null){ return false; }
                     LinearLayout gridCase = (LinearLayout) column.getChildAt(_positionY+y);
                     Square tmpSquare = (Square) gridCase.getChildAt(0);
